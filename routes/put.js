@@ -15,6 +15,7 @@ module.exports = function () {
         if (!flavour) {
           return res.status(404).send();
         }
+        res.status(200);
         res.send(flavour);
       })
       .catch((error) => {
