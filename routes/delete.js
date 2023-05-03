@@ -14,12 +14,14 @@ module.exports = function () {
     try {
       const deletedFlavour = await flavour.findOneAndDelete({ Id: apiId });
       if (!deletedFlavour) {
-        return res.status(404).send();
+        console.log("The page you tried to reach does not exist!");
+        return res.status(404).end();
+      } else {
+        await amount.findOneAndUpdate({}, { $inc: { seq: -1 } });
+        res.status(200).json(deletedFlavour);
       }
-      await amount.findOneAndUpdate({}, { $inc: { seq: -1 } });
-      res.status(200);
-      res.send(deletedFlavour);
     } catch (error) {
+      console.log(error);
       res.status(500).send(error);
     }
   });

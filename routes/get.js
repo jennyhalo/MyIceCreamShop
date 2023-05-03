@@ -4,36 +4,38 @@ const express = require("express");
 const router = express.Router();
 // Tuodaan tuotemalli
 const flavour = require("../models/flavourModel");
+
 module.exports = function () {
-  //haetaan kaikki tiedot tiedokannasta
+  //haetaan kaikki tiedot tiedokannasta, jos ei löydy yhtään tietoa tietokannassa, annetaan statuskoodi 404
   router.get("/api/getall", async (req, res) => {
     try {
-      const flavours = await flavour.find({});
-      if (flavours == null) {
-        return res.status(404).send();
+      const allFlavours = await flavour.find({});
+      if (allFlavours.length === 0) {
+        console.log("The page you tried to reach does not exist!");
+        return res.status(404).end();
+      } else {
+        res.status(200).json(allFlavours);
       }
-      res.status(200).json;
-      res.send(flavours);
     } catch (error) {
+      console.log(error);
       res.status(500).send(error);
     }
   });
-  return router;
-};
-
-module.exports = function () {
   //haetaan kaikki tiedot tiedokannasta
   router.get("/api/:Id", async (req, res) => {
-    const apiId = req.params.Id;
-    await flavour
-      .find({ Id: apiId })
-      .then((flavours) => {
-        res.status(200).json;
-        res.send(flavours);
-      })
-      .catch((error) => {
-        res.status(500).send(error);
-      });
+    try {
+      const apiId = req.params.Id;
+      const singleFlavour = await flavour.findOne({ Id: apiId });
+      if (!singleFlavour) {
+        console.log("The page you tried to reach does not exist!");
+        res.status(404).end();
+      } else {
+        res.status(200).json(singleFlavour);
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).send(error);
+    }
   });
   return router;
 };

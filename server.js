@@ -4,6 +4,8 @@ const express = require("express");
 const app = express();
 // Määritellään portti
 const PORT = process.env.port || 3000;
+// tuodaan bodyparser
+const bodyParser = require("body-parser");
 // Otetaan mongoose käyttöön
 const mongoose = require("mongoose");
 // Otetaan dotenv tiedosto käyttöön
@@ -17,11 +19,15 @@ const deleteRoute = require("./routes/delete.js")();
 // MIDDLEWARE
 // Jokainen request joka tulee muutetaan JSON muotoon
 app.use(express.json());
+// otetaan bodyparser käyttöön
+app.use(bodyParser.json({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 // Otetaan reitit käyttöön
 app.use(getRoute);
 app.use(postRoute);
 app.use(putRoute);
 app.use(deleteRoute);
+
 
 // Yhdistetään tietokantaan ja tehdään virhetarkistus console logilla sen jälkeen, kun tietokantaan on yhdistetty.
 mongoose
