@@ -3,13 +3,13 @@ const express = require("express");
 // luodaan app
 const app = express();
 // Määritellään portti
-const PORT = process.env.port || 3000;
+const PORT = process.env.PORT;
 // tuodaan bodyparser
 const bodyParser = require("body-parser");
 // Otetaan mongoose käyttöön
 const mongoose = require("mongoose");
 // Otetaan dotenv tiedosto käyttöön
-require("dotenv/config");
+require("dotenv").config();
 // Tuodaan reitit
 const getRoute = require("./routes/get.js")();
 const postRoute = require("./routes/post.js")();
@@ -28,7 +28,7 @@ app.use(postRoute);
 app.use(putRoute);
 app.use(deleteRoute);
 
-// Yhdistetään tietokantaan hakemalla env tiedostosta tietokannan osoite, jossa käyttäjätunnus ja salasana on piilotettuna 
+// Yhdistetään tietokantaan hakemalla env tiedostosta tietokannan osoite, jossa käyttäjätunnus ja salasana on piilotettuna
 mongoose
   .connect(process.env.DB_CONNECTION, {
     useNewUrlParser: true,

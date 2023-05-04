@@ -28,7 +28,7 @@ module.exports = function () {
       // varmistetaan käyttäjän kirjaama sisältö
       const { error, value } = flavourPostSchema.validate(req.body);
       if (error) {
-        return res.status(400).json({ error: error.detail[0].message });
+        return res.status(400).end({ error: error.detail[0].message });
       }
       try {
         // etsitään meidän laskentamallista seuraava Id
@@ -52,7 +52,7 @@ module.exports = function () {
         res.status(201).json(newFlavour);
       } catch (error) {
         console.log(error);
-        res.status(500).json({ error: "Internal server error occurred" });
+        res.status(500).end({ error: "Internal server error occurred" });
       }
     })
   );
