@@ -2,8 +2,6 @@
 const express = require("express");
 // luodaan app
 const app = express();
-// Määritellään portti
-const PORT = process.env.PORT;
 // tuodaan bodyparser
 const bodyParser = require("body-parser");
 // Otetaan mongoose käyttöön
@@ -42,6 +40,7 @@ mongoose
   .catch((error) => {
     console.log("error connecting to MongoDB:", error.message);
   });
-
+// Määritellään portti
+const PORT = process.env.PORT;
 //Kuunnellaan määriteltyä porttia ja lähetetään viesti konsoliin funktion avulla
 app.listen(PORT, () => console.log(`app is listening to port ${PORT}`));

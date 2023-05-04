@@ -25,15 +25,19 @@ module.exports = function () {
       // Vahvistetaan syöttökentän sisältö
       const { error, value } = flavourPutSchema.validate(req.body);
       if (error) {
-        return res.status(400).json({ error: error.detail[0].message });
+        return res.status(400).json({ error: error.details[0].message });
       }
       try {
+        // Määritellään Id
         const apiId = req.params.Id;
+        // Etsitään jäätelömakua id:llä
         const FlavourId = await flavour.findOne({ Id: apiId });
+        // Jos Id:tä ei löydy, annetaan status 404
         if (!FlavourId) {
           console.log("The page you tried to reach does not exist!");
           return res.status(404).end();
         } else {
+          // Jos jäätelömaku löytyy Id:llä niin sen sisältö päivitetään
           const updatedFlavour = await flavour.findOneAndUpdate(
             { Id: apiId },
             { ...req.body },
@@ -42,6 +46,7 @@ module.exports = function () {
           // Annetaan statuskoodi 201 joka viestii, että uusi tieto luotu
           res.status(201).json(updatedFlavour);
         }
+        // Tarkistetaan ja lokitetaan serverierrorit
       } catch (error) {
         console.log(error);
         res.status(500).json(error);

@@ -10,8 +10,6 @@ const amount = require("../models/countingModel");
 const Joi = require("joi");
 // Tuodaan asynchandler, jolla voi helpottaa errorien käsittelyä
 const asyncHandler = require("express-async-handler");
-// Post reitillä voi luoda uuden jäätelömaun tietokantaan
-
 // Määritellään schema POST pyyntöjen vahvistusta varten
 const flavourPostSchema = Joi.object({
   Flavour: Joi.string().required(),
@@ -28,7 +26,7 @@ module.exports = function () {
       // varmistetaan käyttäjän kirjaama sisältö
       const { error, value } = flavourPostSchema.validate(req.body);
       if (error) {
-        return res.status(400).end({ error: error.detail[0].message });
+        return res.status(400).json({ error: error.details[0].message });
       }
       try {
         // etsitään meidän laskentamallista seuraava Id
@@ -50,9 +48,10 @@ module.exports = function () {
         // tallennetaan onnistuneesti uusi maku tietokantaan 201 statuksella
         await newFlavour.save();
         res.status(201).json(newFlavour);
+        // Tarkistetaan ja lokitetaan serverierrorit
       } catch (error) {
         console.log(error);
-        res.status(500).end({ error: "Internal server error occurred" });
+        res.status(500).json({ error: "Internal server error occurred" });
       }
     })
   );
