@@ -28,18 +28,19 @@ app.use(postRoute);
 app.use(putRoute);
 app.use(deleteRoute);
 
-
-// Yhdistetään tietokantaan ja tehdään virhetarkistus console logilla sen jälkeen, kun tietokantaan on yhdistetty.
+// Yhdistetään tietokantaan hakemalla env tiedostosta tietokannan osoite, jossa käyttäjätunnus ja salasana on piilotettuna 
 mongoose
   .connect(process.env.DB_CONNECTION, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
+  // Onnistuneessa yhteydessä tietokantaan lokitamme viestin
   .then(() => {
     console.log("Yhdistetty tietokantaan!");
   })
+  // Ongelman ilmetessä lokitamme virheviestin
   .catch((error) => {
-    console.log(error);
+    console.log("error connecting to MongoDB:", error.message);
   });
 
 //Kuunnellaan määriteltyä porttia ja lähetetään viesti konsoliin funktion avulla

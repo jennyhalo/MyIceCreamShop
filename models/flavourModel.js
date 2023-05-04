@@ -1,8 +1,8 @@
-// Haetaan mongoose jotta voimme luoda mallin tietokantaan lähetettävästä datasta
+// Haetaan mongoose jotta voimme luoda mallin ja skeeman tietokantaan lähetettävästä datasta
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
-// luodaan Schema
+// Määritellään Skeema jäätelömaulle
 const flavourSchema = new Schema(
   {
     Id: {
@@ -27,7 +27,5 @@ const flavourSchema = new Schema(
   }
 );
 
-// Luodaan malli
-const flavourModel = mongoose.model("Flavour", flavourSchema);
-// Exportoidaan malli
-module.exports = flavourModel;
+// Exportoidaan malli ja asetetaan sille arvo: Flavour
+module.exports = mongoose.model("Flavour", flavourSchema);

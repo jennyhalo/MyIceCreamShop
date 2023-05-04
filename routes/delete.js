@@ -2,9 +2,9 @@
 const express = require("express");
 // Tuodaan router moduuli expressistä
 const router = express.Router();
-// Tuodaan tuotemalli
+// Otetaan moduuli käyttöön
 const flavour = require("../models/flavourModel");
-// Tuodaan tuotemalli
+// Otetaan moduuli käyttöön
 const amount = require("../models/countingModel");
 
 module.exports = function () {
